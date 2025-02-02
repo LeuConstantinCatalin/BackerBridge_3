@@ -24,12 +24,12 @@ namespace BackerBridge_3.Views
     {
         public event EventHandler SignUpRequested;
         public event EventHandler LogInSuccessful;
-        private readonly UsersViewModel UserViewModel;
+        private readonly UsersViewModel userViewModel;
 
-        public LogInUC_View()
+        public LogInUC_View(UsersViewModel usersViewModel)
         {
             InitializeComponent();
-            UserViewModel = new UsersViewModel();
+            this.userViewModel = usersViewModel;
         }
 
         private void tbEmail_GotFocus(object sender, RoutedEventArgs e)
@@ -59,9 +59,9 @@ namespace BackerBridge_3.Views
             string email = tbEmail.Text;
             string password = tbPassword.Password;
 
-            if (UserViewModel.AuthenticateUser(email, password))
+            if (userViewModel.AuthenticateUser(email, password))
             {
-                new MainWindowView().Show();
+                new MainWindowView(userViewModel).Show();
                 LogInSuccessful?.Invoke(this, EventArgs.Empty);
             }
             else

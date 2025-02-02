@@ -115,20 +115,51 @@
     <Compile Include="Users.cs">
       <DependentUpon>BackerBridgeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CampaignViewModel.cs" />
     <Compile Include="ViewModels\CompaniesViewModel.cs" />
+    <Compile Include="ViewModels\DashBoardViewModel.cs" />
     <Compile Include="ViewModels\DonationsViewModel.cs" />
+    <Compile Include="ViewModels\InsightDonorViewModel.cs" />
     <Compile Include="ViewModels\PaymentsViewModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsAdminViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
+    <Compile Include="Views\AccountUC_View.xaml.cs">
+      <DependentUpon>AccountUC_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BoolToVisibilityConverter.cs" />
     <Compile Include="Views\ConnectView.xaml.cs">
       <DependentUpon>ConnectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DashBoardUC_View.xaml.cs">
+      <DependentUpon>DashBoardUC_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InsightAdminUC_View.xaml.cs">
+      <DependentUpon>InsightAdminUC_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InsightDonorUC_View.xaml.cs">
+      <DependentUpon>InsightDonorUC_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InsightFundraiserUC_View.xaml.cs">
+      <DependentUpon>InsightFundraiserUC_View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogInUC_View.xaml.cs">
       <DependentUpon>LogInUC_View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RelayCommand.cs" />
+    <Compile Include="Views\SettingsAdminUC_View.xaml.cs">
+      <DependentUpon>SettingsAdminUC_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsDonorUC_View.xaml.cs">
+      <DependentUpon>SettingsDonorUC_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsFundraiserUC_View.xaml.cs">
+      <DependentUpon>SettingsFundraiserUC_View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SignUpUC_View.xaml.cs">
       <DependentUpon>SignUpUC_View.xaml</DependentUpon>
@@ -137,7 +168,27 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\AccountUC_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConnectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DashBoardUC_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InsightAdminUC_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InsightDonorUC_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InsightFundraiserUC_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +197,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsAdminUC_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsDonorUC_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsFundraiserUC_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

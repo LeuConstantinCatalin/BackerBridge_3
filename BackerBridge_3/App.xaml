@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:BackerBridge_3"
              StartupUri="\Views\ConnectView.xaml">
     <Application.Resources>
-         
+       
     </Application.Resources>
 </Application>

@@ -1,4 +1,5 @@
 ﻿using BackerBridge_3.Properties;
+using BackerBridge_3.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,9 @@ namespace BackerBridge_3.Views
     {
         private const double aspectRatio = 1.497;
         private float[] leftButtonsOpacity;
+        private UsersViewModel usersViewModel;
 
-        public MainWindowView()
+        public MainWindowView(UsersViewModel usersViewModel)
         {
             InitializeComponent();
             leftButtonsOpacity = new float[5];
@@ -35,32 +37,8 @@ namespace BackerBridge_3.Views
             leftButtonsOpacity[3] = 0f;
             leftButtonsOpacity[4] = 0f;
             UpdateLeftButtonOpacity();
-        }
-
-        private void HighlightLeftButtons(int selectedButton, float opacity)
-        {
-
-            switch (selectedButton)
-            {
-                case 0:
-                    this.imDashBoard.Opacity = opacity;
-                    return;
-                case 1:
-                    this.imInsight.Opacity = opacity;
-                    return;
-                case 2:
-                    this.imTransaction.Opacity = opacity;
-                    return;
-                case 3:
-                    this.imAccount.Opacity = opacity;
-                    return;
-                case 4:
-                    this.imSettings.Opacity = opacity;
-                    return;
-                default:
-                    return;
-
-            }
+            this.usersViewModel = usersViewModel;
+            ccContents.Content = new DashBoardUC_View();
         }
 
         private void UpdateLeftButtonOpacity()
@@ -147,6 +125,7 @@ namespace BackerBridge_3.Views
             leftButtonsOpacity[3] = 0f;
             leftButtonsOpacity[4] = 0f;
             UpdateLeftButtonOpacity();
+            ccContents.Content = new DashBoardUC_View();
             //ccContents.Content = new DashBoard(data);
         }
 
@@ -159,18 +138,14 @@ namespace BackerBridge_3.Views
             leftButtonsOpacity[4] = 0f;
             UpdateLeftButtonOpacity();
 
-            //if (loggedUser.UserType.ToLower() == "fundraiser")
-            //{
-            //    ccContents.Content = new Insight(loggedUser);
-            //}
-            //if (loggedUser.UserType.ToLower() == "donor")
-            //{
-            //    ccContents.Content = new Insight_Donor(loggedUser);
-            //}
-            //if (loggedUser.UserType.ToLower() == "admin")
-            //{
-            //    ccContents.Content = new Insight_Admin();
-            //}
+            // Get the appropriate control from the ViewModel
+            var insightControl = usersViewModel.GetInsightControl();
+
+            if (insightControl != null)
+            {
+                ccContents.Content = insightControl;
+            }
+            
         }
 
         private void btTransaction_Click(object sender, RoutedEventArgs e)
@@ -193,6 +168,7 @@ namespace BackerBridge_3.Views
             leftButtonsOpacity[4] = 0f;
             UpdateLeftButtonOpacity();
             //ccContents.Content = new Account(loggedUser);
+            ccContents.Content = new AccountUC_View(usersViewModel);
         }
 
         private void btSettings_Click(object sender, RoutedEventArgs e)
@@ -216,6 +192,13 @@ namespace BackerBridge_3.Views
             //{
             //    ccContents.Content = new Settings_Donor();
             //}
+            // Get the appropriate settings control from UsersViewModel
+            var settingsControl = usersViewModel.GetSettingsControl();
+
+            if (settingsControl != null)
+            {
+                ccContents.Content = settingsControl;  // Assuming 'ccSettingsContent' is a ContentControl for settings
+            }
         }
     }
 }

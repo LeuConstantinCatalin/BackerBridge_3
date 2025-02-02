@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackerBridge_3.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -25,17 +26,20 @@ namespace BackerBridge_3.Views
         SignUpUC_View signUpView;
         LogInUC_View logInView;
 
+        private UsersViewModel usersViewModel;
+
         public ConnectView()
         {
             InitializeComponent();
-            logInView = new LogInUC_View();
-            signUpView = new SignUpUC_View();
+            usersViewModel = new UsersViewModel();
+            logInView = new LogInUC_View(usersViewModel);
+            signUpView = new SignUpUC_View(usersViewModel);
             ShowLogInView();
         }
 
         private void ShowLogInView()
         {
-            var logInView = new LogInUC_View();
+            var logInView = new LogInUC_View(usersViewModel);
             logInView.SignUpRequested += OnSignUpRequested;
             logInView.LogInSuccessful += OnLogInSuccessful;
 
@@ -44,7 +48,7 @@ namespace BackerBridge_3.Views
 
         private void ShowSignUpView()
         {
-            var signUpView = new SignUpUC_View();
+            var signUpView = new SignUpUC_View(usersViewModel);
             signUpView.BackToLogInRequested += OnBackToLogInRequested;
             signUpView.SignUpSuccessful += OnSignUpSuccessful;
             ccContents.Content = signUpView;
@@ -67,7 +71,7 @@ namespace BackerBridge_3.Views
                 return;
 
             // Open the main window
-            var mainWindow = new MainWindowView();
+            var mainWindow = new MainWindowView(usersViewModel);
             mainWindow.Show();
 
             // Close ConnectionView on the dispatcher to ensure proper window lifecycle management

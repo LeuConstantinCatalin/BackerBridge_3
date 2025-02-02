@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
+using BackerBridge_3.Views;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace BackerBridge_3.ViewModels
 {
@@ -12,7 +15,8 @@ namespace BackerBridge_3.ViewModels
     {
         public ObservableCollection<Users> Users { get; set; }
 
-        public UsersViewModel() {
+        public UsersViewModel() 
+        {
             Users = new ObservableCollection<Users>();
         }
 
@@ -23,6 +27,7 @@ namespace BackerBridge_3.ViewModels
                 var user = ctx.Users.SingleOrDefault(u => u.Email == email);
                 if(user != null)
                 {
+                    Users.Clear();
                     Users.Add(user);
                     return true;
                 }
@@ -59,9 +64,19 @@ namespace BackerBridge_3.ViewModels
                 byte[] hashedPassword = HashPassword(password);
 
                 // Verify the password
-                return user.UserPassword.SequenceEqual(hashedPassword);
+                if (user.UserPassword.SequenceEqual(hashedPassword))
+                {
+                    // Add the authenticated user to the collection
+                    Users.Clear();
+                    Users.Add(user);
+
+                    return true;
+                }
+
+                return false;
             }
         }
+
 
         public bool SignUpUser(string firstName, string lastName, string email, string password, DateTime birthDate)
         {
@@ -88,9 +103,72 @@ namespace BackerBridge_3.ViewModels
                 ctx.Users.Add(newUser);
                 ctx.SaveChanges();
 
+                Users.Clear();
                 Users.Add(newUser);
 
                 return true;
+            }
+        }
+
+        public UserControl GetSettingsControl()
+        {
+            // Retrieve the logged-in user
+            var loggedUser = Users.FirstOrDefault();
+
+            if (loggedUser == null)
+            {
+                MessageBox.Show("No logged-in user found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+
+            // Determine which settings control to load based on user type
+            string userType = loggedUser.UserType.ToLower();
+
+            switch (userType)
+            {
+                case "fundraiser":
+                    return new SettingsFundraiserUC_View(this);
+
+                case "donor":
+                    return new SettingsDonorUC_View(this);
+
+                case "admin":
+                    return new SettingsAdminUC_View(this);
+
+                default:
+                    MessageBox.Show($"Unknown user type: {loggedUser.UserType}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+            }
+        }
+
+        public UserControl GetInsightControl()
+        {
+            // Retrieve the logged-in user
+            var loggedUser = Users.FirstOrDefault();
+
+            if (loggedUser == null)
+            {
+                MessageBox.Show("No logged-in user found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+
+            // Determine which control to load based on user type
+            string userType = loggedUser.UserType.ToLower();
+
+            switch (userType)
+            {
+                case "fundraiser":
+                    return new InsightFundraiserUC_View(this);
+
+                case "donor":
+                    return new InsightDonorUC_View(this);
+
+                case "admin":
+                    return new InsightAdminUC_View(this);
+
+                default:
+                    MessageBox.Show($"Unknown user type: {loggedUser.UserType}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
             }
         }
     }

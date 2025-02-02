@@ -31,15 +31,15 @@ namespace BackerBridge_3.Views
         private bool showPassword = true;
         private bool showConfirmPassword = true;
         private int id = 3;
-        private UsersViewModel UserViewModel;
+        private UsersViewModel userViewModel;
 
 
 
-        public SignUpUC_View()
+        public SignUpUC_View(UsersViewModel usersViewModel)
         {
             allowValidation = new int[6];
             InitializeComponent();
-            UserViewModel = new UsersViewModel();
+            this.userViewModel = usersViewModel;
         }
 
         private void tbLastName_GotFocus(object sender, RoutedEventArgs e)
@@ -153,10 +153,9 @@ namespace BackerBridge_3.Views
 
             if (validationSum == 6)
             {
-                if(UserViewModel.SignUpUser(this.tbFirstName.Text, this.tbLastName.Text, this.tbEmail.Text, this.tbPassword.Password, DateTime.Parse(this.dpBirthDate.Text)))
+                if(userViewModel.SignUpUser(this.tbFirstName.Text, this.tbLastName.Text, this.tbEmail.Text, this.tbPassword.Password, DateTime.Parse(this.dpBirthDate.Text)))
                 {
                     SignUpSuccessful?.Invoke(this, EventArgs.Empty);
-                    this.
                 }
                 else
                 {

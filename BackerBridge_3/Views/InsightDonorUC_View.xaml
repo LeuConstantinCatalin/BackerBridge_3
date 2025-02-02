@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="BackerBridge_3.Views.InsightDonorUC_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BackerBridge_3.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Total Donations" FontSize="22" FontWeight="Bold" Foreground="#FFD700" Margin="0,0,0,10" Grid.Row="0" HorizontalAlignment="Left" />
+        <TextBlock Text="{Binding TotalDonationAmount}" FontSize="20" Foreground="White" Margin="0,0,0,20" Grid.Row="1" HorizontalAlignment="Left" FontWeight="Bold" />
+        <TextBlock Text="Your Donations" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,10" Grid.Row="2" HorizontalAlignment="Left" />
+
+        <ListBox ItemsSource="{Binding Donations}" Grid.Row="3" Margin="0,0,0,10" Background="#2E2E2E" Foreground="White" BorderBrush="#3C3C3C" BorderThickness="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#3C3C3C" CornerRadius="10" Padding="10" Margin="5">
+                        <StackPanel>
+                            <TextBlock Text="{Binding DonationMessage}" FontSize="14" Foreground="White" FontWeight="Bold" />
+                            <TextBlock Text="{Binding DonationDate, StringFormat='MMM dd, yyyy'}" FontSize="12" Foreground="LightGray" />
+                            <TextBlock Text="{Binding Amount, StringFormat='${0:N2}'}" FontSize="14" Foreground="White" FontWeight="Bold" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
