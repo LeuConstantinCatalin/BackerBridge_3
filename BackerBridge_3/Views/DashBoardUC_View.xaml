@@ -22,15 +22,17 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="10">
                             <TextBlock Text="Total Donations" FontSize="16" FontWeight="Bold" Foreground="LightGray" />
-                            <TextBlock Text="{Binding TotalDonations}" FontSize="20" FontWeight="SemiBold" Foreground="#00FF00" />
+                            <TextBlock Text="{Binding Statistics.TotalDonations, StringFormat=C}" FontSize="20" FontWeight="SemiBold" Foreground="#00FF00" />
                         </StackPanel>
+
                         <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="10">
                             <TextBlock Text="Total Donors" FontSize="16" FontWeight="Bold" Foreground="LightGray" />
-                            <TextBlock Text="{Binding TotalDonors}" FontSize="20" FontWeight="SemiBold" Foreground="#00FF00" />
+                            <TextBlock Text="{Binding Statistics.TotalDonors}" FontSize="20" FontWeight="SemiBold" Foreground="#00FF00" />
                         </StackPanel>
+
                         <StackPanel Grid.Column="2" HorizontalAlignment="Center" Margin="10">
                             <TextBlock Text="Donations This Month" FontSize="16" FontWeight="Bold" Foreground="LightGray" />
-                            <TextBlock Text="{Binding DonationsThisMonth}" FontSize="20" FontWeight="SemiBold" Foreground="#00FF00" />
+                            <TextBlock Text="{Binding Statistics.DonationsThisMonth, StringFormat=C}" FontSize="20" FontWeight="SemiBold" Foreground="#00FF00" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

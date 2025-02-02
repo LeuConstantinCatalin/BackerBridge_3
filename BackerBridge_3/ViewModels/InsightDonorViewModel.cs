@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackerBridge_3.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,22 +10,22 @@ namespace BackerBridge_3.ViewModels
 {
     internal class InsightDonorViewModel : BaseViewModel
     {
-        private readonly BackerBridgeEntities _dbContext;
-        private readonly UsersViewModel usersViewModel;
+        private readonly DonorInsightModel _donorInsightModel;
+        private readonly UsersViewModel _usersViewModel;
 
-        private string totalDonationAmount;
+        private string _totalDonationAmount;
         public string TotalDonationAmount
         {
-            get => totalDonationAmount;
-            set => SetProperty(ref totalDonationAmount, value);
+            get => _totalDonationAmount;
+            set => SetProperty(ref _totalDonationAmount, value);
         }
 
         public ObservableCollection<DonationInfo> Donations { get; set; }
 
         public InsightDonorViewModel(UsersViewModel usersViewModel)
         {
-            this.usersViewModel = usersViewModel;
-            _dbContext = new BackerBridgeEntities();
+            _donorInsightModel = new DonorInsightModel();
+            _usersViewModel = usersViewModel;
 
             Donations = new ObservableCollection<DonationInfo>();
 
@@ -35,8 +36,8 @@ namespace BackerBridge_3.ViewModels
         {
             try
             {
-                // Retrieve the logged-in user from the UsersViewModel
-                var loggedUser = usersViewModel.Users.FirstOrDefault();
+                // Retrieve the logged-in user from UsersViewModel
+                var loggedUser = _usersViewModel.Users.FirstOrDefault();
 
                 if (loggedUser == null)
                 {
@@ -44,24 +45,12 @@ namespace BackerBridge_3.ViewModels
                     return;
                 }
 
-                // Calculate total donation amount
-                var totalDonationAmount = _dbContext.Payments
-                    .Where(p => p.Donations.UserID == loggedUser.UserID)
-                    .Sum(p => (double?)p.Amount) ?? 0;
-
+                // Load total donation amount
+                var totalDonationAmount = _donorInsightModel.GetTotalDonationAmount(loggedUser.UserID);
                 TotalDonationAmount = $"${totalDonationAmount:N2}";
 
-                // Fetch donations with valid payments
-                var donations = _dbContext.Donations
-                    .Where(d => d.UserID == loggedUser.UserID && d.Payments.Any(p => p.Amount > 0))
-                    .Select(d => new DonationInfo
-                    {
-                        DonationMessage = d.DonationMessage,
-                        DonationDate = d.DonationDate,
-                        Amount = d.Payments.Sum(p => p.Amount)
-                    })
-                    .Where(d => d.Amount > 0)
-                    .ToList();
+                // Load donations
+                var donations = _donorInsightModel.GetUserDonations(loggedUser.UserID);
 
                 // Populate the ObservableCollection
                 Donations.Clear();
@@ -69,16 +58,10 @@ namespace BackerBridge_3.ViewModels
             }
             catch (Exception ex)
             {
-                // Handle errors (e.g., logging)
+                // Handle errors, e.g., logging
+                TotalDonationAmount = "Error loading donations";
             }
         }
-    }
-
-    public class DonationInfo
-    {
-        public string DonationMessage { get; set; }
-        public DateTime DonationDate { get; set; }
-        public double Amount { get; set; }
     }
 }
 

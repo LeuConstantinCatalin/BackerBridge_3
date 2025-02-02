@@ -91,11 +91,15 @@
     <Compile Include="Donations.cs">
       <DependentUpon>BackerBridgeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\CampaignModel.cs" />
     <Compile Include="Models\CompaniesModel.cs" />
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\DonationsModel.cs" />
+    <Compile Include="Models\DonorInsightModel.cs" />
     <Compile Include="Models\PaymentsModel.cs" />
     <Compile Include="Models\RequestsModel.cs" />
+    <Compile Include="Models\SettingsAdminModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Payments.cs">
       <DependentUpon>BackerBridgeModel.tt</DependentUpon>
@@ -122,6 +126,7 @@
     <Compile Include="ViewModels\DashBoardViewModel.cs" />
     <Compile Include="ViewModels\DonationsViewModel.cs" />
     <Compile Include="ViewModels\InsightDonorViewModel.cs" />
+    <Compile Include="ViewModels\InsightFundraiserViewModel.cs" />
     <Compile Include="ViewModels\PaymentsViewModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
     <Compile Include="ViewModels\SettingsAdminViewModel.cs" />

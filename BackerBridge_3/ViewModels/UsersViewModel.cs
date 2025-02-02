@@ -8,31 +8,21 @@ using System.Security.Cryptography;
 using BackerBridge_3.Views;
 using System.Windows.Controls;
 using System.Windows;
+using BackerBridge_3.Models;
+using static BackerBridge_3.Models.UsersModel;
 
 namespace BackerBridge_3.ViewModels
 {
-    public class UsersViewModel
+    public class UsersViewModel : BaseViewModel
     {
-        public ObservableCollection<Users> Users { get; set; }
+        public ObservableCollection<UsersModel.User> Users { get; set; }
 
-        public UsersViewModel() 
-        {
-            Users = new ObservableCollection<Users>();
-        }
+        private readonly UsersModel _usersModel;
 
-        public bool FindUser(string email)
+        public UsersViewModel()
         {
-            using (var ctx = new BackerBridgeEntities())
-            {
-                var user = ctx.Users.SingleOrDefault(u => u.Email == email);
-                if(user != null)
-                {
-                    Users.Clear();
-                    Users.Add(user);
-                    return true;
-                }
-                return false;
-            }
+            Users = new ObservableCollection<User>();
+            _usersModel = new UsersModel();
         }
 
         public bool VerifyPassword(string password)
@@ -52,62 +42,59 @@ namespace BackerBridge_3.ViewModels
 
         public bool AuthenticateUser(string email, string password)
         {
-            using (var ctx = new BackerBridgeEntities())
+            // Get the user from the model
+            var user = _usersModel.GetUserByEmail(email);
+
+            if (user == null)
+                return false;  // User not found
+
+            // Hash the input password
+            byte[] hashedPassword = HashPassword(password);
+
+            // Verify the password
+            if (user.UserPassword.SequenceEqual(hashedPassword))
             {
-                // Find the user by email
-                var user = ctx.Users.SingleOrDefault(u => u.Email == email);
-
-                if (user == null)
-                    return false; // User not found
-
-                // Hash the input password
-                byte[] hashedPassword = HashPassword(password);
-
-                // Verify the password
-                if (user.UserPassword.SequenceEqual(hashedPassword))
-                {
-                    // Add the authenticated user to the collection
-                    Users.Clear();
-                    Users.Add(user);
-
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-
-        public bool SignUpUser(string firstName, string lastName, string email, string password, DateTime birthDate)
-        {
-            using (var ctx = new BackerBridgeEntities())
-            {
-                if (ctx.Users.Any(u => u.Email == email))
-                {
-                    Console.WriteLine("User already exists!!!");
-                    return false; 
-                }
-
-                byte[] hashedPassword = HashPassword(password);
-
-                var newUser = new Users
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Email = email,
-                    UserPassword = hashedPassword,
-                    BirthDate = birthDate,
-                    UserType = "donor" 
-                };
-
-                ctx.Users.Add(newUser);
-                ctx.SaveChanges();
-
+                // Add the authenticated user to the collection
                 Users.Clear();
-                Users.Add(newUser);
+                Users.Add(user);
 
                 return true;
             }
+
+            return false;
+        }
+
+        public bool SignUpUser(string firstName, string lastName, string email, string password, DateTime birthDate)
+        {
+            // Check if the user already exists
+            if (_usersModel.UserExists(email))
+            {
+                Console.WriteLine("User already exists!!!");
+                return false;
+            }
+
+            // Hash the password
+            byte[] hashedPassword = HashPassword(password);
+
+            // Create a new user instance
+            var newUser = new User
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                UserPassword = hashedPassword,
+                BirthDate = birthDate,
+                UserType = "donor"
+            };
+
+            // Add the user to the database
+            _usersModel.AddUser(newUser);
+
+            // Add the user to the collection
+            Users.Clear();
+            Users.Add(newUser);
+
+            return true;
         }
 
         public UserControl GetSettingsControl()

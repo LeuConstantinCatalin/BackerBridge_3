@@ -8,28 +8,23 @@ using System.Windows.Input;
 using System.Windows;
 using BackerBridge_3.Views;
 using BackerBridge_3.Views.BackerBridge_3.Views;
+using BackerBridge_3.Models;
 
 namespace BackerBridge_3.ViewModels
 {
-    public class RequestItem
-    {
-        public int RequestID { get; set; }
-        public int UserID { get; set; }
-        public string Message { get; set; }
-        public string RequestDate { get; set; }
-    }
-
     public class SettingsAdminViewModel : BaseViewModel
     {
-        private readonly BackerBridgeEntities _dbContext;
-        public ObservableCollection<RequestItem> PendingRequests { get; }
+        private readonly SettingsAdminModel _settingsAdminModel;
+
+        public ObservableCollection<RequestItem> PendingRequests { get; set; }
 
         public ICommand AcceptRequestCommand { get; }
         public ICommand DeclineRequestCommand { get; }
 
+
         public SettingsAdminViewModel()
         {
-            _dbContext = new BackerBridgeEntities();
+            _settingsAdminModel = new SettingsAdminModel();
             PendingRequests = new ObservableCollection<RequestItem>();
 
             AcceptRequestCommand = new RelayCommand<RequestItem>(AcceptRequest);
@@ -38,35 +33,15 @@ namespace BackerBridge_3.ViewModels
             LoadPendingRequests();
         }
 
+
         public void LoadPendingRequests()
         {
             try
             {
+                var requests = _settingsAdminModel.GetPendingRequests();
+
                 PendingRequests.Clear();
-
-                // Fetch the raw data from the database
-                var requests = _dbContext.Requests
-                    .Where(r => r.Status == "Pending")
-                    .Select(r => new
-                    {
-                        r.RequestID,
-                        r.UserID,
-                        r.Message,
-                        r.RequestDate  // No ToString() here
-                    })
-                    .ToList();
-
-                // Format the data in memory after fetching
-                foreach (var request in requests)
-                {
-                    PendingRequests.Add(new RequestItem
-                    {
-                        RequestID = request.RequestID,
-                        UserID = request.UserID,
-                        Message = request.Message,
-                        RequestDate = request.RequestDate.ToString("yyyy-MM-dd")  // Format here
-                    });
-                }
+                requests.ForEach(PendingRequests.Add);
             }
             catch (Exception ex)
             {
@@ -74,45 +49,36 @@ namespace BackerBridge_3.ViewModels
             }
         }
 
-        private void AcceptRequest(object parameter)
+
+        private void AcceptRequest(RequestItem request)
         {
-            if (parameter is RequestItem selectedRequest)
+            if (request == null)
+                return;
+
+            if (_settingsAdminModel.AcceptRequest(request.RequestID, request.UserID))
             {
-                var request = _dbContext.Requests.SingleOrDefault(r => r.RequestID == selectedRequest.RequestID);
-                var user = _dbContext.Users.SingleOrDefault(u => u.UserID == selectedRequest.UserID);
-
-                if (request != null && user != null)
-                {
-                    request.Status = "Approved";
-                    user.UserType = "Fundraiser";
-
-                    _dbContext.SaveChanges();
-
-                    MessageBox.Show($"Request {selectedRequest.RequestID} accepted. User {selectedRequest.UserID} is now a Fundraiser.",
-                                    "Request Accepted", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    LoadPendingRequests();
-                }
+                MessageBox.Show($"Request {request.RequestID} accepted. User {request.UserID} is now a Fundraiser.", "Request Accepted", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadPendingRequests();
+            }
+            else
+            {
+                MessageBox.Show("Failed to accept the request.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void DeclineRequest(object parameter)
+        private void DeclineRequest(RequestItem request)
         {
-            if (parameter is RequestItem selectedRequest)
+            if (request == null)
+                return;
+
+            if (_settingsAdminModel.DeclineRequest(request.RequestID))
             {
-                var request = _dbContext.Requests.SingleOrDefault(r => r.RequestID == selectedRequest.RequestID);
-
-                if (request != null)
-                {
-                    request.Status = "Rejected";
-
-                    _dbContext.SaveChanges();
-
-                    MessageBox.Show($"Request {selectedRequest.RequestID} has been declined.",
-                                    "Request Declined", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    LoadPendingRequests();
-                }
+                MessageBox.Show($"Request {request.RequestID} has been declined.", "Request Declined", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadPendingRequests();
+            }
+            else
+            {
+                MessageBox.Show("Failed to decline the request.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

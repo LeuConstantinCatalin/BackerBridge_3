@@ -21,9 +21,12 @@ namespace BackerBridge_3.Views
     /// </summary>
     public partial class InsightFundraiserUC_View : UserControl
     {
+        UsersViewModel usersViewModel;
+
         public InsightFundraiserUC_View(UsersViewModel usersViewModel)
         {
             InitializeComponent();
+            this.usersViewModel = usersViewModel;
         }
     }
 }

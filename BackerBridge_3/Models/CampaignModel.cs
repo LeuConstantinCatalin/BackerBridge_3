@@ -11,6 +11,8 @@ namespace BackerBridge_3.Models
     {
         public class Campaign : INotifyPropertyChanged
         {
+            private readonly BackerBridgeEntities _dbContext;
+
             private string campaignID;
             private string campaignName;
             private int companyID;
@@ -132,7 +134,6 @@ namespace BackerBridge_3.Models
                     }
                 }
             }
-
         }
     }
 }
