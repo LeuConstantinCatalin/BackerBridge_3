@@ -1,0 +1,17 @@
+﻿<Window x:Class="BackerBridge_3.Views.ConnectView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BackerBridge_3.Views;assembly=BackerBridge_3"
+        mc:Ignorable="d"
+        Title="ConnectView" Height="730" Width="1080"
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid ShowGridLines="False">
+        <!-- Insert the LogInUC_View user control -->
+        <ContentControl x:Name="ccContents" />
+    </Grid>
+</Window>

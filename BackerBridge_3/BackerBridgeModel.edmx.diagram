@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ad56dec2e405459484966fb3a4620bc3" Name="Diagram1">
+        <EntityTypeShape EntityType="BackerBridgeModel.Campaign" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackerBridgeModel.Companies" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackerBridgeModel.Donations" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackerBridgeModel.Payments" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackerBridgeModel.Requests" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackerBridgeModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackerBridgeModel.Users" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="BackerBridgeModel.FK__Campaign__Compan__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="BackerBridgeModel.FK__Campaign__UserID__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="BackerBridgeModel.FK_Donations_Campaign" ManuallyRouted="false" />
+        <AssociationConnector Association="BackerBridgeModel.FK__Companies__UserI__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="BackerBridgeModel.FK__Donations__UserI__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="BackerBridgeModel.FK__Payments__Donati__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="BackerBridgeModel.FK__Requests__UserID__04E4BC85" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

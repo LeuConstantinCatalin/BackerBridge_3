@@ -1,0 +1,181 @@
+﻿<Window x:Class="BackerBridge_3.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BackerBridge_3.Views"
+        mc:Ignorable="d"
+        Title="MainWindowView"
+        Height="1200" Width="1920"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        WindowStartupLocation="CenterScreen">
+
+
+    <Window.Resources>
+
+        <Style TargetType="Border">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="LeftButtons">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Grid.Column" Value="1"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Image">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="LeftButtonsI">
+                    <Setter Property="Opacity" Value="0"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="LeftButtonsB">
+                    <Setter Property="Opacity" Value="1"/>
+                </DataTrigger>
+                <Trigger Property ="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Border"
+                            BorderBrush="Transparent"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"   >
+                            <ContentPresenter Margin="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property ="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid ShowGridLines="False">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/BackerBridgeMP.png"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29*" />
+            <RowDefinition Height="142*"/>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="136*"/>
+            <RowDefinition Height="37*"/>
+            <RowDefinition Height="134*"/>
+            <RowDefinition Height="38*"/>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Height="74*"/>
+            <RowDefinition Height="26*"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="89*" />
+            <ColumnDefinition Width="300*" />
+            <ColumnDefinition Width="137*" />
+            <ColumnDefinition Width="818*" />
+            <ColumnDefinition Width="34*" />
+            <ColumnDefinition Width="460*" />
+            <ColumnDefinition Width="82*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Border Tag="LeftButtons" Grid.Row="3">
+            <Grid>
+                <Image x:Name="imDashBoard" Tag="LeftButtonsI" Source="/Images/295x76B.png">
+                </Image>
+                <Button x:Name="btDashboard"
+                        MouseEnter="btDashboard_MouseEnter"
+                        MouseLeave="btDashboard_MouseLeave"
+                        Click="btDashboard_Click">
+                    <Image Tag="LeftButtonsB" Source="/Images/DashBoardB.png"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border Tag="LeftButtons" Grid.Row="5">
+            <Grid>
+                <Image x:Name="imInsight" Tag="LeftButtonsI" Source="/Images/295x76B.png">
+                </Image>
+                <Button x:Name="btInsight"
+                        MouseEnter="btInsight_MouseEnter"
+                        MouseLeave="btInsight_MouseLeave"
+                        Click="btInsight_Click">
+                    <Image Tag="LeftButtonsB" Source="/Images/InsightB.png"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border Tag="LeftButtons" Grid.Row="7">
+            <Grid>
+                <Image x:Name="imTransaction" Tag="LeftButtonsI" Source="/Images/295x76B.png">
+                </Image>
+                <Button x:Name="btTransaction"
+                        MouseEnter="btTransaction_MouseEnter"
+                        MouseLeave="btTransaction_MouseLeave"
+                        Click="btTransaction_Click">
+                    <Image Tag="LeftButtonsB" Source="/Images/TransactionB.png"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border Tag="LeftButtons" Grid.Row="9">
+            <Grid>
+                <Image x:Name="imAccount" Tag="LeftButtonsI" Source="/Images/295x76B.png">
+                </Image>
+                <Button x:Name="btAccount"
+                        MouseEnter="btAccount_MouseEnter"
+                        MouseLeave="btAccount_MouseLeave"
+                        Click="btAccount_Click">
+                    <Image Tag="LeftButtonsB" Source="/Images/AccountB.png"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border Tag="LeftButtons" Grid.Row="11">
+            <Grid>
+                <Image x:Name="imSettings" Tag="LeftButtonsI" Source="/Images/295x76B.png">
+                </Image>
+                <Button x:Name="btSettings"
+                        MouseEnter="btSettings_MouseEnter"
+                        MouseLeave="btSettings_MouseLeave"
+                        Click="btSettings_Click">
+                    <Image Tag="LeftButtonsB" Source="/Images/SettingsB.png"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <ContentControl x:Name="ccContents" Grid.Column="3" Grid.ColumnSpan="4"
+            Grid.RowSpan="19"/>
+
+    </Grid>
+</Window>
