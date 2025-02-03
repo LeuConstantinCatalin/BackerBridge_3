@@ -24,11 +24,11 @@ namespace BackerBridge_3.Models
         }
 
         // Get donations for a specific user
-        public List<DonationInfo> GetUserDonations(int userId)
+        public List<DonorDonationInfo> GetUserDonations(int userId)
         {
             return _dbContext.Donations
                 .Where(d => d.UserID == userId && d.Payments.Any(p => p.Amount > 0))
-                .Select(d => new DonationInfo
+                .Select(d => new DonorDonationInfo
                 {
                     DonationMessage = d.DonationMessage,
                     DonationDate = d.DonationDate,
@@ -39,7 +39,7 @@ namespace BackerBridge_3.Models
         }
     }
 
-    public class DonationInfo
+    public class DonorDonationInfo
     {
         public string DonationMessage { get; set; }
         public DateTime DonationDate { get; set; }

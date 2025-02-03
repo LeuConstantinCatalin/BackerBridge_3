@@ -38,6 +38,7 @@ namespace BackerBridge_3.Views
             leftButtonsOpacity[4] = 0f;
             UpdateLeftButtonOpacity();
             this.usersViewModel = usersViewModel;
+
             ccContents.Content = new DashBoardUC_View();
         }
 
@@ -156,7 +157,32 @@ namespace BackerBridge_3.Views
             leftButtonsOpacity[3] = 0f;
             leftButtonsOpacity[4] = 0f;
             UpdateLeftButtonOpacity();
-            //ccContents.Content = new Transaction(loggedUser);
+            // Create the TransactionUC_View and its ViewModel
+            var transactionView = new TransactionUC_View(usersViewModel);
+            var transactionVM = (TransactionViewModel)transactionView.DataContext;
+
+            // Subscribe to the navigation event
+            transactionVM.RequestDonationSetup += OnRequestDonationSetup;
+
+            ccContents.Content = transactionView;
+        }
+
+        private void OnRequestDonationSetup(int campaignId, UsersViewModel usersVM)
+        {
+            // Navigate to donation setup view
+            var donationView = new SetUpUC_View(campaignId, usersVM);
+
+            // Handle donation completion to return to transactions
+            if (donationView.DataContext is DonationViewModel donationVM)
+            {
+                donationVM.RequestClose += () =>
+                {
+                    // Return to transaction view after donation/cancel
+                    ccContents.Content = new TransactionUC_View(usersViewModel);
+                };
+            }
+
+            ccContents.Content = donationView;
         }
 
         private void btAccount_Click(object sender, RoutedEventArgs e)

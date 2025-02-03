@@ -1,5 +1,4 @@
-﻿using BackerBridge_3.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,21 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BackerBridge_3.ViewModels;
 
 namespace BackerBridge_3.Views
 {
     /// <summary>
-    /// Interaction logic for InsightFundraiserUC_View.xaml
+    /// Interaction logic for TransactionUC_View.xaml
     /// </summary>
-    public partial class InsightFundraiserUC_View : UserControl
+    public partial class TransactionUC_View : UserControl
     {
         UsersViewModel usersViewModel;
 
-        public InsightFundraiserUC_View(UsersViewModel usersViewModel)
+        public TransactionUC_View(UsersViewModel usersViewModel)
         {
             InitializeComponent();
             this.usersViewModel = usersViewModel;
-            DataContext = new InsightFundraiserViewModel(usersViewModel);
+            DataContext = new TransactionViewModel(usersViewModel);
         }
     }
 }

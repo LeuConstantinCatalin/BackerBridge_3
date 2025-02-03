@@ -10,57 +10,36 @@ namespace BackerBridge_3.ViewModels
 {
     internal class InsightDonorViewModel : BaseViewModel
     {
-        private readonly DonorInsightModel _donorInsightModel;
+        private readonly DonorInsightModel _donorModel;
         private readonly UsersViewModel _usersViewModel;
 
-        private string _totalDonationAmount;
-        public string TotalDonationAmount
-        {
-            get => _totalDonationAmount;
-            set => SetProperty(ref _totalDonationAmount, value);
-        }
-
-        public ObservableCollection<DonationInfo> Donations { get; set; }
+        // Use the correct type for the collection
+        public ObservableCollection<DonorDonationInfo> Donations { get; set; }
 
         public InsightDonorViewModel(UsersViewModel usersViewModel)
         {
-            _donorInsightModel = new DonorInsightModel();
+            _donorModel = new DonorInsightModel();
             _usersViewModel = usersViewModel;
 
-            Donations = new ObservableCollection<DonationInfo>();
+            Donations = new ObservableCollection<DonorDonationInfo>();
 
             LoadDonations();
         }
 
         private void LoadDonations()
         {
-            try
+            var currentUser = _usersViewModel.Users.FirstOrDefault();
+
+            if (currentUser == null)
             {
-                // Retrieve the logged-in user from UsersViewModel
-                var loggedUser = _usersViewModel.Users.FirstOrDefault();
-
-                if (loggedUser == null)
-                {
-                    TotalDonationAmount = "$0.00";
-                    return;
-                }
-
-                // Load total donation amount
-                var totalDonationAmount = _donorInsightModel.GetTotalDonationAmount(loggedUser.UserID);
-                TotalDonationAmount = $"${totalDonationAmount:N2}";
-
-                // Load donations
-                var donations = _donorInsightModel.GetUserDonations(loggedUser.UserID);
-
-                // Populate the ObservableCollection
-                Donations.Clear();
-                donations.ForEach(Donations.Add);
+                return;
             }
-            catch (Exception ex)
-            {
-                // Handle errors, e.g., logging
-                TotalDonationAmount = "Error loading donations";
-            }
+
+            // GetUserDonations should return DonorDonationInfo
+            var donations = _donorModel.GetUserDonations(currentUser.UserID);
+
+            Donations.Clear();
+            donations.ForEach(donation => Donations.Add(donation));
         }
     }
 }
